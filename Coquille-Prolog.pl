@@ -32,17 +32,6 @@ condition_vraie(C):- fait(C).
 condition_vraie(C1 et C2):- condition_vraie(C1), condition_vraie(C2).
 condition_vraie(C1 ou C2):- condition_vraie(C1) ; condition_vraie(C2).
 
-/* diagnostic automobile
-assert(fait( essence(réservoir) )).
-assert(fait( essence(carburateur) )).
-assert(fait( tourne(moteur) )).
-*/
-
-si essence(moteur) et tourne(moteur) alors problème(bougies).
-si not(tourne(moteur)) et not(éclaire(phares)) alors problème(batterie_ou_câbles).
-si not(tourne(moteur)) et éclaire(phares) alors problème(démarreur).
-si essence(réservoir) et essence(carburateur) alors essence(moteur).
-
 /* exemple simple
 assert(fait(p(a))).
 assert(fait(r(a))).
@@ -53,37 +42,20 @@ assert(fait(r(a))).
 %  Ici commence notre implemenation de notre coquille  %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-% si nbr(X) et (X > 1) alors type_group(GROUP).
-% si nbr(1) alors type_group(seule).
-% si not(type_group(seule)) alors type_group(group).
-%
-
-% si tomate() alors activiter(carnaval).
-% si not(tomate()) alors activiter(bob).
-
-%
-%
-%
 
 si saison(hiver) alors neige().
 si not(saison(hiver)) ou saison(printemps) ou saison(ete) ou saison(automne) alors not(neige()).
 
-si neige() et type(sport) et prix(payant) alors activiter(ski).
-si neige() et prix(gratuit) et lieu(quebec) alors activiter(carnaval).
-si saison(ete) et prix(payant) alors activiter(parc_aquatique).
-si saison(automne) et public(enfant) alors activiter(halloween).
-si type(recreatif) et prix(payant) alors activiter(musee).
-si type(recreatif) et lieu(quebec) ou prix(gratuit) alors activiter(marcher_vieux_quebec).
-si type(recreatif) et prix(payant) alors activiter(aquarium).
-si not(neige()) et lieu(hors_quebec) alors activiter(camping).
-si not(neige()) et type(sport) alors activiter(velo).
-si public(enfant) alors activiter(recreofun).
-
-
-
-
-
-
+si neige() et type(sport) et prix(payant) alors activite(ski).
+si neige() et prix(gratuit) et lieu(quebec) alors activite(carnaval).
+si saison(ete) et prix(payant) alors activite(parc_aquatique).
+si saison(automne) et public(enfant) alors activite(halloween).
+si type(recreatif) et prix(payant) alors activite(musee).
+si type(recreatif) et lieu(quebec) ou prix(gratuit) alors activite(marche_vieux_quebec).
+si type(recreatif) et prix(payant) alors activite(aquarium).
+si not(neige()) et lieu(hors_quebec) alors activite(camping).
+si not(neige()) et type(sport) alors activite(velo).
+si public(enfant) alors activite(recreofun).
 
 /*
 assert(fait(saison(ete))).
@@ -93,35 +65,34 @@ assert(fait(type(sport))).
 assert(fait(prix(payant))).
 */
 
-def_activiter(ski, hiver, "Mnt. Ste-Anne").
-def_activiter(carnaval, hiver, quebec).
-def_activiter(parc_aquatique, ete, quebec).
-def_activiter(halloween, automne, quebec).
-def_activiter(musee, hiver, quebec).
-def_activiter(musee, printemps, quebec).
-def_activiter(musee, ete, quebec).
-def_activiter(musee, automne, quebec).
-def_activiter(marcher_vieux_quebec, hiver, quebec).
-def_activiter(marcher_vieux_quebec, printemps, quebec).
-def_activiter(marcher_vieux_quebec, ete, quebec).
-def_activiter(marcher_vieux_quebec, automne, quebec).
-def_activiter(aquarium, hiver, quebec).
-def_activiter(aquarium, printemps, quebec).
-def_activiter(aquarium, ete, quebec).
-def_activiter(aquarium, automne, quebec).
-def_activiter(camping, printemps, hors_quebec).
-def_activiter(camping, ete, hors_quebec).
-def_activiter(camping, automne, hors_quebec).
+def_activite(ski, hiver, "Mnt. Ste-Anne").
+def_activite(carnaval, hiver, quebec).
+def_activite(parc_aquatique, ete, quebec).
+def_activite(halloween, automne, quebec).
+def_activite(musee, hiver, quebec).
+def_activite(musee, printemps, quebec).
+def_activite(musee, ete, quebec).
+def_activite(musee, automne, quebec).
+def_activite(marche_vieux_quebec, hiver, quebec).
+def_activite(marche_vieux_quebec, printemps, quebec).
+def_activite(marche_vieux_quebec, ete, quebec).
+def_activite(marche_vieux_quebec, automne, quebec).
+def_activite(aquarium, hiver, quebec).
+def_activite(aquarium, printemps, quebec).
+def_activite(aquarium, ete, quebec).
+def_activite(aquarium, automne, quebec).
+def_activite(camping, printemps, hors_quebec).
+def_activite(camping, ete, hors_quebec).
+def_activite(camping, automne, hors_quebec).
 
 plan() :-
 	ch_avant,
-	fait(activiter(N)),
-	def_activiter(N, S, L),
-	write("Nom : "),
+	fait(activite(N)),
+	def_activite(N, S, L),
+	write("Activité : "),
 	write(N), nl(),
 	write("Saison : "),
 	write(S), nl(),
 	write("Lieu : "),
 	write(L), nl()
-.
-
+. 
